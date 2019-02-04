@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- BootStrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- CSS -->
+    
+    <title>Timesheet</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Jumbotron Title -->
+        <div class="jumbotron">
+            <h1 class="text-center">TRAIN SCHEDULER</h1>
+            <h3 class="text-center">Up to date scheduler offering train route information.</h3>
+            <!-- <h3 class="text-center"></h3></h3> -->
+        </div>
+            
+    <!-- This is the Train Schedule table where we will feed our information from the database and our js -->
+    <div class="container">
+        <h2>Current Train Schedule</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <!-- The scope attribute specifies that this is a header for a column -->
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Frequency</th>
+                    <th scope="col">Next Arrival</th>
+                    <th scope="col">Minutes Away</th>
+                </tr>
+                </thead>
+            <tbody id ="all-display">
+            </tbody>
+            </table>
+        </div>
+    <!-- This is the form where information about a new train can be added and submitted -->
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h3>Add Train</h3>
+                <form id="newTrainForm">
+                    <div class="form-group">
+                        <label for="train-name">Train Name</label>
+                        <input class="form-control" id="trainName" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="train-destination">Destination </label>
+                        <input class="form-control" id="trainDestination" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="train-time">Train Time</label>
+                        <input class="form-control" id="trainTime" type="text">
+                    </div>                        
+                    <div class="form-group form-check">
+                    </div>
+                    <!-- Submit</button> -->
+                    <input class="btn button-primary" id="addTrain" type="submit"> 
+                    
+                </form>
+    </div>
+        
+</body>
+</html>
