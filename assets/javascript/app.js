@@ -8,10 +8,11 @@ var config = {
     storageBucket: "",
     messagingSenderId: "533795584715"
   };
+
   firebase.initializeApp(config);
 
 // variable referencing the database
-  var database = firebase.database();
+var database = firebase.database();
 
 
   // Initial values
@@ -25,6 +26,8 @@ var config = {
 
   var minsAway = 0;
 
+
+
 // Capture Button Click on the addTrain submit button
 $("addTrain").on("click", function (event) {
 
@@ -32,17 +35,47 @@ $("addTrain").on("click", function (event) {
 
     name = ("#trainName").val().trim();
 
+    console.log(name);
+
     destination = ("#trainDestination").val().trim();
 
-    frequency = ("#trainTime").val().trim();
+    console.log(destination);
+
+    nextArrival = ("#trainTime").val().trim();
+
+    console.log(nextArrival);
+
+    frequency = ("#trainFrequency").val().trim();
+
+    console.log(minsAway);
+
 
     // code that handles the push to database
     database.ref().push({
+
         name: name,
-        email: email,
-        age: age,
-        comment: comment,
+
+        destination: destination,
+
+        time: time,
+
+        frequency: frequency,
         
     });
 
+});
+
+// initial loader code 
+
+database.ref().on("child_added", function (){
+
+    console.log(childSnapshot.val().name);
+
+    console.log(childSnapshot.val().destination);
+
+    console.log(childSnapshot.val().time);
+
+    console.log(childSnapshot/val().frequency);
+
+    // $("#")
 });
