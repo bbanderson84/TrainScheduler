@@ -1,5 +1,7 @@
+$(document).ready(function () { 
 
 
+// firebase config
 var config = {
     apiKey: "AIzaSyDixVMvAe6e65HFvkreJBoK5CArp3G0K1s",
     authDomain: "train-scheduler-a5532.firebaseapp.com",
@@ -15,59 +17,54 @@ var config = {
 var database = firebase.database();
 
 
-  // Initial values
-  var trainName = "";
-
-  var destination = "";
-
-  var frequency = "";
-
-  var nextArrival = 0;
-
-  var minsAway = 0;
-
-
 
 // Capture Button Click on the addTrain submit button
 $("addTrain").on("click", function (event) {
 
     event.preventDefault();
 
-    name = ("#trainName").val().trim();
+    trainName = ("#trainName").val().trim();
 
-    console.log(name);
+    console.log(trainName);
 
     destination = ("#trainDestination").val().trim();
 
     console.log(destination);
 
-    nextArrival = ("#trainTime").val().trim();
+    firstTime = ("#trainTime").val().trim();
 
-    console.log(nextArrival);
+    console.log(firstTime);
 
     frequency = ("#trainFrequency").val().trim();
 
-    console.log(minsAway);
+    console.log(frequency);
 
 
     // code that handles the push to database
     database.ref().push({
 
-        name: name,
+        name: trainName,
 
         destination: destination,
 
-        time: time,
+        time: firstTime,
 
         frequency: frequency,
-        
+
     });
+
+    $("#trainName").val("");
+    $("#trainDestination").val("");
+    $("#trainTime").val("");
+    $("#trainFrequency").val("");
+
+    return false;
 
 });
 
 // initial loader code 
 
-database.ref().on("child_added", function (){
+database.ref().on("child_added", function(childSnapshot) {
 
     console.log(childSnapshot.val().name);
 
@@ -77,5 +74,41 @@ database.ref().on("child_added", function (){
 
     console.log(childSnapshot/val().frequency);
 
-    // $("#")
+    
+
+   var  trainName = childSnapshot.val().name;
+   var destination = childSnapshot.val().destination;
+   var time = childSnapshot.val().time;
+   var frequency = childSnapshot.val().frequency;
+
+    //calculation variables 
+
+    var tFrequency = frequency;
+    var tTime = firstTime;
+
+    // calculate first train time
+    var tTimeConverted = moment(tTime, "HH:mm").subtract(1, "years");
+    console.log(tTimeConverted);
+
+    // calculate the curent time
+    var currentTime = moment();
+    console.log("Current time: " + moment(currentTime).format("HH:mm"));
+
+    // calculate the difference between the first train time and current time
+    var diffTime = moment().diff(moment(tTimeConverted), "minutes");
+    console.log("Difference in time: " + diffTime);
+    
+    // calcluate the time apart, the remainder
+
+    var tRemainder = diffTime % tFrequency;
+    console.log(tRemainder);
+
+    // calculate the minutes until the next rain
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    console.log("Minutes until train: " + tMinutesTillTrain);
+
+    // calculate the next trains arrival time
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("Arrival time: " + moment(nextTrain).format("HH:mm"));
+  
 });
