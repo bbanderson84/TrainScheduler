@@ -19,28 +19,28 @@ var database = firebase.database();
 
 
 // Capture Button Click on the addTrain submit button
-$("addTrain").on("click", function (event) {
+$("#addTrain").on("click", function (event) {
 
     event.preventDefault();
 
-    trainName = ("#trainName").val().trim();
+    var trainName = $("#trainName").val().trim();
 
     console.log(trainName);
 
-    destination = ("#trainDestination").val().trim();
+    var destination = $("#trainDestination").val().trim();
 
     console.log(destination);
 
-    firstTime = ("#trainTime").val().trim();
+    var firstTime = $("#trainTime").val().trim();
 
     console.log(firstTime);
 
-    frequency = ("#trainFrequency").val().trim();
+    var frequency = $("#trainFrequency").val().trim();
 
     console.log(frequency);
 
 
-    // code that handles the push to database
+    // // code that handles the push to database
     database.ref().push({
 
         name: trainName,
@@ -60,6 +60,7 @@ $("addTrain").on("click", function (event) {
 
     return false;
 
+
 });
 
 // initial loader code 
@@ -72,43 +73,51 @@ database.ref().on("child_added", function(childSnapshot) {
 
     console.log(childSnapshot.val().time);
 
-    console.log(childSnapshot/val().frequency);
+    console.log(childSnapshot.val().frequency);
 
     
 
    var  trainName = childSnapshot.val().name;
    var destination = childSnapshot.val().destination;
-   var time = childSnapshot.val().time;
+   var firstTime = childSnapshot.val().firstTime;
    var frequency = childSnapshot.val().frequency;
 
-    //calculation variables 
+//     //calculation variables 
 
     var tFrequency = frequency;
     var tTime = firstTime;
 
-    // calculate first train time
-    var tTimeConverted = moment(tTime, "HH:mm").subtract(1, "years");
+//     // calculate first train time
+    var tTimeConverted = moment(tTime, "hh:mm").subtract(1, "years");
     console.log(tTimeConverted);
 
-    // calculate the curent time
+//     // calculate the curent time
     var currentTime = moment();
-    console.log("Current time: " + moment(currentTime).format("HH:mm"));
+    console.log("Current time: " + moment(currentTime).format("hh:mm"));
 
-    // calculate the difference between the first train time and current time
+//     // calculate the difference between the first train time and current time
     var diffTime = moment().diff(moment(tTimeConverted), "minutes");
     console.log("Difference in time: " + diffTime);
     
-    // calcluate the time apart, the remainder
+//     // calcluate the time apart, the remainder
 
     var tRemainder = diffTime % tFrequency;
     console.log(tRemainder);
 
-    // calculate the minutes until the next rain
+//     // calculate the minutes until the next rain
     var tMinutesTillTrain = tFrequency - tRemainder;
     console.log("Minutes until train: " + tMinutesTillTrain);
 
-    // calculate the next trains arrival time
+//     // calculate the next trains arrival time
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+
+    var arrival = moment(nextTrain).format("hh:mm a");
     console.log("Arrival time: " + moment(nextTrain).format("HH:mm"));
+
+
+    $("#trainInfo > tbody").append("<tr><td>" + trainName + "<tr><td>" + destination + "<tr><td>" + frequency + "<tr><td>" + arrival + "<tr><td>" + tMinutesTillTrain + "<tr><td>");
+
   
+});
+
 });
