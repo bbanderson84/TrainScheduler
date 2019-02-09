@@ -1,5 +1,6 @@
 $(document).ready(function () { 
 
+   
 
 // firebase config
 var config = {
@@ -17,31 +18,33 @@ var config = {
 var database = firebase.database();
 
 
-
 // Capture Button Click on the addTrain submit button
 $("#addTrain").on("click", function (event) {
 
+
     event.preventDefault();
 
-    var trainName = $("#trainName").val().trim();
+     trainName = $("#trainName").val().trim();
 
     console.log(trainName);
 
-    var destination = $("#trainDestination").val().trim();
+     destination = $("#trainDestination").val().trim();
 
     console.log(destination);
 
-    var firstTime = $("#trainTime").val().trim();
+     firstTime = $("#trainTime").val().trim();
 
     console.log(firstTime);
 
-    var frequency = $("#trainFrequency").val().trim();
+     frequency = $("#trainFrequency").val().trim();
 
     console.log(frequency);
 
 
     // // code that handles the push to database
-    database.ref().push({
+    // database.ref().push({
+
+    var trainDetails = { 
 
         name: trainName,
 
@@ -51,14 +54,16 @@ $("#addTrain").on("click", function (event) {
 
         frequency: frequency
 
-    });
+    };
+
+    database.ref().push(trainDetails);
 
     $("#trainName").val("");
     $("#trainDestination").val("");
     $("#trainTime").val("");
     $("#trainFrequency").val("");
 
-    return false;
+    // return false;
 
 
 });
@@ -77,7 +82,7 @@ database.ref().on("child_added", function(childSnapshot) {
 
     
 
-   var  trainName = childSnapshot.val().name;
+   var trainName = childSnapshot.val().name;
    var destination = childSnapshot.val().destination;
    var firstTime = childSnapshot.val().time;
    var frequency = childSnapshot.val().frequency;

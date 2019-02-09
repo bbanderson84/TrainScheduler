@@ -1,6 +1,5 @@
 #background1 {
     background: gray;
-
 }
 
 body {
@@ -13,4 +12,5 @@ body {
 
 .text {
     color: white;
+    text-shadow: black;
 }
